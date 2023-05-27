@@ -1,5 +1,5 @@
-function Square() {
-  return <button className="square">x</button>;
+function Square({ value }) {
+  return <button className="square">{value}</button>;
 }
 
 export default function Board() {
