@@ -23,17 +23,12 @@ function Roll({ resetGame }) {
   return null;
 }
 
-function Board() {
-  const [xIsNext, setXIsNext] = useState(true); // xIsNext = true | false
-  const [squares, setSquares] = useState(Array(9).fill(null)); // [,,,,,,,,]
+function Board({ xIsNext, squares, onPlay }) {
+  // const [xIsNext, setXIsNext] = useState(true); // xIsNext = true | false
+  // const [squares, setSquares] = useState(Array(9).fill(null)); // [,,,,,,,,]
 
   winner = calculateWinner(squares); // we have the winner
   let status;
-
-  const resetGame = () => {
-    setSquares(Array(9).fill(null));
-    setXIsNext(true);
-  };
 
   /*
   if we have the winner, we will return it and display the winner.
@@ -42,7 +37,6 @@ function Board() {
 
   if (winner) {
     status = "winner: " + winner;
-    Roll({ resetGame });
   } else {
     status = "next player turn is : " + (xIsNext ? "x" : "o");
   }
@@ -60,8 +54,9 @@ function Board() {
       nextSquares[i] = "o";
     }
 
-    setSquares(nextSquares); // call setSquares function
-    setXIsNext(!xIsNext); // flip it
+    // setSquares(nextSquares); // call setSquares function
+    // setXIsNext(!xIsNext); // flip it
+    onPlay(nextSquares);
   }
   return (
     <>
@@ -82,7 +77,6 @@ function Board() {
         <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
       </div>
-      <Roll resetGame={resetGame} />
     </>
   );
 }
@@ -116,14 +110,43 @@ export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const currentSquares = history[history.length - 1]; // the last history that we have
 
+  function handlePlay(nextSquares) {
+    setHistory([...history, nextSquares]);
+    setXIsNext(!xIsNext);
+  }
+
+  function jumpTo(nextMove) {
+    // to do
+  }
+
+  const moves = history.map((squares, move) => {
+    let description;
+    if (move > 0) {
+      description = "Go to move #" + move;
+    } else {
+      description = "Go to game start";
+    }
+    return (
+      <li>
+        <button onClick={() => jumpTo(move)}>{description}</button>
+      </li>
+    );
+  });
+
   return (
-    <div className="game">
-      <div className="game-board">
-        <Board />
+    <>
+      <div className="game">
+        <div className="game-board">
+          <Board
+            xIsNext={xIsNext}
+            squares={currentSquares}
+            onPlay={handlePlay}
+          />
+        </div>
+        <div className="game-info">
+          <ol></ol>
+        </div>
       </div>
-      <div className="game-info">
-        <ol></ol>
-      </div>
-    </div>
+    </>
   );
 }
