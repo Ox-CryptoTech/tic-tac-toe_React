@@ -23,7 +23,7 @@ function Roll({ resetGame }) {
   return null;
 }
 
-export default function Board() {
+function Board() {
   const [xIsNext, setXIsNext] = useState(true); // xIsNext = true | false
   const [squares, setSquares] = useState(Array(9).fill(null)); // [,,,,,,,,]
 
@@ -109,4 +109,21 @@ function calculateWinner(squares) {
     }
   }
   return null;
+}
+
+export default function Game() {
+  const [xIsNext, setXIsNext] = useState(true);
+  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const currentSquares = history[history.length - 1]; // the last history that we have
+
+  return (
+    <div className="game">
+      <div className="game-board">
+        <Board />
+      </div>
+      <div className="game-info">
+        <ol></ol>
+      </div>
+    </div>
+  );
 }
