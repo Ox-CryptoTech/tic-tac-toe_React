@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+let winner;
+
 function Square({ value, onSquareClick }) {
   // const [value, setValue] = useState(null);
 
@@ -10,11 +12,17 @@ function Square({ value, onSquareClick }) {
   );
 }
 
+function Roll() {
+  if (winner) {
+    return <button className="re-run">play again!</button>;
+  }
+}
+
 export default function Board() {
   const [xIsNext, setXIsNext] = useState(true); // xIsNext = true | false
   const [squares, setSquares] = useState(Array(9).fill(null)); // [,,,,,,,,]
 
-  const winner = calculateWinner(squares); // we have the winner
+  winner = calculateWinner(squares); // we have the winner
   let status;
 
   /*
@@ -24,6 +32,7 @@ export default function Board() {
 
   if (winner) {
     status = "winner: " + winner;
+    Roll();
   } else {
     status = "next player turn is : " + (xIsNext ? "x" : "o");
   }
@@ -62,6 +71,9 @@ export default function Board() {
         <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
         <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+      </div>
+      <div className="play-again">
+        <Roll />
       </div>
     </>
   );
