@@ -11,12 +11,20 @@ function Square({ value, onSquareClick }) {
 }
 
 export default function Board() {
-  const [squares, setSquares] = useState(Array(9).fill(null));
+  const [xIsNext, setXIsNext] = useState(true); // xIsNext = true | false
+  const [squares, setSquares] = useState(Array(9).fill(null)); // [,,,,,,,,]
 
   function handleClick(i) {
     const nextSquares = squares.slice(); // build a copy of the array without any argument
-    nextSquares[i] = "X"; // fill in array index
-    setSquares(nextSquares); // pass array element in setSquare function ---> setSquares , update squares with setSquare function with array element
+
+    if (xIsNext) {
+      nextSquares[i] = "x";
+    } else {
+      nextSquares[i] = "o";
+    }
+
+    setSquares(nextSquares); // call setSquares function
+    setXIsNext(!xIsNext); // flip it
   }
   return (
     <>
