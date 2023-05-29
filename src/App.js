@@ -15,6 +15,10 @@ export default function Board() {
   const [squares, setSquares] = useState(Array(9).fill(null)); // [,,,,,,,,]
 
   function handleClick(i) {
+    // checking the filling index
+    if (squares[i]) {
+      return;
+    }
     const nextSquares = squares.slice(); // build a copy of the array without any argument
 
     if (xIsNext) {
