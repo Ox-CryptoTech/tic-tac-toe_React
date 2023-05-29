@@ -14,9 +14,23 @@ export default function Board() {
   const [xIsNext, setXIsNext] = useState(true); // xIsNext = true | false
   const [squares, setSquares] = useState(Array(9).fill(null)); // [,,,,,,,,]
 
+  const winner = calculateWinner(squares); // we have the winner
+  let status;
+
+  /*
+  if we have the winner, we will return it and display the winner.
+  otherwise we continue the game with displaying what user turn is.
+  */
+
+  if (winner) {
+    status = "winner: " + winner;
+  } else {
+    status = "next player turn is : " + (xIsNext ? "x" : "o");
+  }
+
   function handleClick(i) {
-    // checking the filling index
-    if (squares[i]) {
+    // checking the filling index and winning user
+    if (squares[i] || calculateWinner(squares)) {
       return;
     }
     const nextSquares = squares.slice(); // build a copy of the array without any argument
