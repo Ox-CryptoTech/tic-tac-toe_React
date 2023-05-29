@@ -12,11 +12,16 @@ function Square({ value, onSquareClick }) {
   );
 }
 
-function Roll() {
-  if (winner) {
-    return <button className="re-run">play again!</button>;
-  }
-}
+// function Roll({ resetGame }) {
+//   if (winner) {
+//     return (
+//       <button className="re-run" onClick={resetGame}>
+//         play again!
+//       </button>
+//     );
+//   }
+//   return null;
+// }
 
 export default function Board() {
   const [xIsNext, setXIsNext] = useState(true); // xIsNext = true | false
@@ -24,6 +29,11 @@ export default function Board() {
 
   winner = calculateWinner(squares); // we have the winner
   let status;
+
+  // const resetGame = () => {
+  //   setSquares(Array(9).fill(null));
+  //   setXIsNext(true);
+  // };
 
   /*
   if we have the winner, we will return it and display the winner.
@@ -73,7 +83,7 @@ export default function Board() {
         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
       </div>
       <div className="play-again">
-        <Roll />
+        <Roll resetGame={resetGame} />
       </div>
     </>
   );
